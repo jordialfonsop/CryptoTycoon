@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 
 public class ChangePC : MonoBehaviour
 {
     //public GameObject Global = GameObject.FindWithTag("SceneControl");
-    public SpriteRenderer PC;
+    public Image PC;
     public Sprite PC1;
     public Sprite PC2;
     public Sprite PC3;
