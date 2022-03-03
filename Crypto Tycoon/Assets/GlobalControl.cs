@@ -31,6 +31,27 @@ public class GlobalControl : MonoBehaviour
     public int temp = 2;
 
 
+    public GameObject MailBackground;
+    public GameObject Mail1;
+    public GameObject Mail2;
+    public GameObject Mail3;
+
+
+
+
+    public Text mailText;
+    public double numberOfMails;
+
+    public GameObject NotEnoughMoney;
+    private double warningTime;
+
+    public Text AmazonMiningPCDescription;
+
+    
+    
+    
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +60,11 @@ public class GlobalControl : MonoBehaviour
         isPaused = false;
         PCnum = 2;
         money = 3000;
+        Mail1.SetActive(false);
+        Mail2.SetActive(false);
+        Mail3.SetActive(false);
+        numberOfMails = 0;
+        warningTime = 0;
     }
 
     // Update is called once per frame
@@ -58,6 +84,7 @@ public class GlobalControl : MonoBehaviour
         }
         timeText.text = myDate.ToString();
         moneyText.text = Math.Ceiling(money).ToString();
+        AmazonMiningPCDescription.text = "New mining Computer (" + temp.ToString() + "/5 installed)\nPrice: 3000$";
         if (temp == 2)
         {
             PC.sprite = PC1;
@@ -74,6 +101,34 @@ public class GlobalControl : MonoBehaviour
         {
             PC.sprite = PC4;
         }
+
+        if(temp>3 && MailBackground.activeInHierarchy)
+        {
+            Mail1.SetActive(true);
+
+        }
+        else
+        {
+            Mail1.SetActive(false);
+        }
+        mailText.text = numberOfMails.ToString();
+
+        if (temp > 3)
+        {
+            numberOfMails = 1;
+        }
+        if (NotEnoughMoney.activeInHierarchy)
+        {
+            warningTime += Time.deltaTime;
+        }
+        if (warningTime > 0.7)
+        {
+            NotEnoughMoney.SetActive(false);
+            warningTime = 0;
+        }
+
+
+
     }
 
 
@@ -89,6 +144,21 @@ public class GlobalControl : MonoBehaviour
         {
             pauseimg.sprite = pauseSprite;
             //resume the time
+        }
+    }
+
+    public void buyMiningPC()
+    {
+        if (money < 3000 || temp>4)
+        {
+            
+            NotEnoughMoney.SetActive(true);
+
+        }
+        else
+        {
+            temp += 1;
+            money -= 3000;
         }
     }
 }
