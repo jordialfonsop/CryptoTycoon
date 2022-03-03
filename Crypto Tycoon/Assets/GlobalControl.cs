@@ -23,6 +23,14 @@ public class GlobalControl : MonoBehaviour
     public double money;
 
 
+    public Image PC;
+    public Sprite PC1;
+    public Sprite PC2;
+    public Sprite PC3;
+    public Sprite PC4;
+    public int temp = 2;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -39,16 +47,33 @@ public class GlobalControl : MonoBehaviour
         if (!isPaused)
         {
             TimeStart += Time.deltaTime;
-            money += Time.deltaTime * (PCnum * 10);
+            
         }
         
         if (TimeStart > 2.0)
         {
             myDate=myDate.AddDays(1);
             TimeStart = 0.0;
+            money += PCnum * 100;
         }
         timeText.text = myDate.ToString();
         moneyText.text = Math.Ceiling(money).ToString();
+        if (temp == 2)
+        {
+            PC.sprite = PC1;
+        }
+        else if (temp == 3)
+        {
+            PC.sprite = PC2;
+        }
+        else if (temp == 4)
+        {
+            PC.sprite = PC3;
+        }
+        else if (temp == 5)
+        {
+            PC.sprite = PC4;
+        }
     }
 
 
