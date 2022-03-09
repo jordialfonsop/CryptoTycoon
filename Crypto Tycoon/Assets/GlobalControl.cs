@@ -36,7 +36,8 @@ public class GlobalControl : MonoBehaviour
     public GameObject Mail2;
     public GameObject Mail3;
 
-
+    public double maxConected;
+    public double repeaterNum;
 
 
     public Text mailText;
@@ -47,8 +48,11 @@ public class GlobalControl : MonoBehaviour
 
     public Text AmazonMiningPCDescription;
 
-    
-    
+    public GameObject buyRepeaterButton;
+    public GameObject repeaterStandBy;
+    public Text buyRepeaterTxt;
+    public GameObject AmazonBackgroung;
+    public double repeaterPrice;
     
 
 
@@ -65,6 +69,9 @@ public class GlobalControl : MonoBehaviour
         Mail3.SetActive(false);
         numberOfMails = 0;
         warningTime = 0;
+        maxConected = 4;
+        repeaterNum = 0;
+        repeaterPrice = 500;
     }
 
     // Update is called once per frame
@@ -80,11 +87,12 @@ public class GlobalControl : MonoBehaviour
         {
             myDate=myDate.AddDays(1);
             TimeStart = 0.0;
-            money += PCnum * 100;
+            money += Math.Min(temp,maxConected) * 100;
         }
         timeText.text = myDate.ToString();
         moneyText.text = Math.Ceiling(money).ToString();
         AmazonMiningPCDescription.text = "New mining Computer (" + temp.ToString() + "/5 installed)\nPrice: 3000$";
+        buyRepeaterTxt.text = "New wifi repeater(you can connect " + maxConected.ToString() + " computers to the internet )\nPrice: "+repeaterPrice.ToString();
         if (temp == 2)
         {
             PC.sprite = PC1;
@@ -102,7 +110,7 @@ public class GlobalControl : MonoBehaviour
             PC.sprite = PC4;
         }
 
-        if(temp>3 && MailBackground.activeInHierarchy)
+        if(temp>2 && MailBackground.activeInHierarchy)
         {
             Mail1.SetActive(true);
 
@@ -113,10 +121,24 @@ public class GlobalControl : MonoBehaviour
         }
         mailText.text = numberOfMails.ToString();
 
-        if (temp > 3)
+        if (temp > 2 && temp < 5)
         {
             numberOfMails = 1;
+        }else if(temp > 4){
+            numberOfMails = 2;
         }
+        if (temp > 4 && MailBackground.activeInHierarchy)
+        {
+            Mail2.SetActive(true);
+
+        }
+        else
+        {
+            Mail2.SetActive(false);
+        }
+
+
+
         if (NotEnoughMoney.activeInHierarchy)
         {
             warningTime += Time.deltaTime;
@@ -127,7 +149,19 @@ public class GlobalControl : MonoBehaviour
             warningTime = 0;
         }
 
+        if (temp < 5 && AmazonBackgroung.activeInHierarchy)
+        {
+            repeaterStandBy.SetActive(true);
 
+        }else if(temp > 4 && AmazonBackgroung.activeInHierarchy)
+        {
+            buyRepeaterButton.SetActive(true);
+        }
+        else
+        {
+            repeaterStandBy.SetActive(false);
+            buyRepeaterButton.SetActive(false);
+        }
 
     }
 
@@ -159,6 +193,20 @@ public class GlobalControl : MonoBehaviour
         {
             temp += 1;
             money -= 3000;
+        }
+    }
+
+    public void buyRepeater()
+    {
+        if(money<repeaterPrice)
+        {
+            NotEnoughMoney.SetActive(true);
+        }
+        else
+        {
+            repeaterNum += 1;
+            maxConected += 4;
+            repeaterPrice = repeaterPrice * 3;
         }
     }
 }
