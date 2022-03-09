@@ -1811,7 +1811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &470655586
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1936,7 +1936,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &491142029
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2215,7 +2215,7 @@ GameObject:
   - component: {fileID: 563886940}
   - component: {fileID: 563886939}
   m_Layer: 5
-  m_Name: Money
+  m_Name: ComputersDisconected
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2825,7 +2825,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -43.03, y: -0.000016689}
+  m_AnchoredPosition: {x: -43, y: -2}
   m_SizeDelta: {x: 276.544, y: 92.296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &960689667
@@ -3684,6 +3684,8 @@ MonoBehaviour:
   buyRepeaterTxt: {fileID: 1496936801}
   AmazonBackgroung: {fileID: 1542151141}
   repeaterPrice: 0
+  DisconectedPcText: {fileID: 563886939}
+  DisconectedPc: 0
 --- !u!4 &1328722284
 Transform:
   m_ObjectHideFlags: 0
@@ -4223,8 +4225,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 40.3, y: 3}
-  m_SizeDelta: {x: 23.934, y: 23.934}
+  m_AnchoredPosition: {x: 135, y: 2}
+  m_SizeDelta: {x: 95, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1502802304
 MonoBehaviour:
@@ -5610,8 +5612,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 135.287, y: 2.3466}
-  m_SizeDelta: {x: 94.573, y: 94.573}
+  m_AnchoredPosition: {x: 135, y: 2}
+  m_SizeDelta: {x: 95, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2032987018
 MonoBehaviour:

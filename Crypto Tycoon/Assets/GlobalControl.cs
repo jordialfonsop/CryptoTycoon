@@ -53,6 +53,10 @@ public class GlobalControl : MonoBehaviour
     public Text buyRepeaterTxt;
     public GameObject AmazonBackgroung;
     public double repeaterPrice;
+
+
+    public Text DisconectedPcText;
+    public double DisconectedPc;
     
 
 
@@ -72,6 +76,8 @@ public class GlobalControl : MonoBehaviour
         maxConected = 4;
         repeaterNum = 0;
         repeaterPrice = 500;
+        DisconectedPc = 0;
+
     }
 
     // Update is called once per frame
@@ -163,6 +169,8 @@ public class GlobalControl : MonoBehaviour
             buyRepeaterButton.SetActive(false);
         }
 
+        DisconectedPc = Math.Max(temp-maxConected, 0);
+        DisconectedPcText.text = DisconectedPc.ToString() + " disconected computers";
     }
 
 
@@ -206,6 +214,7 @@ public class GlobalControl : MonoBehaviour
         {
             repeaterNum += 1;
             maxConected += 4;
+            money -= repeaterPrice;
             repeaterPrice = repeaterPrice * 3;
         }
     }
