@@ -77,6 +77,8 @@ public class GlobalControl : MonoBehaviour
     public bool eventMail3;
 
     public double PCstorageRoom;
+    public Text pcNumText;
+
 
     // Start is called before the first frame update
     void Start()
@@ -190,12 +192,12 @@ public class GlobalControl : MonoBehaviour
         if (daysPassed >periodForTax)
         {
             daysPassed = 0;
-            economicTax = economicTax * 1.2;
+            economicTax = economicTax * 1.1;
 
             miningPCPrice = miningPCPrice * economicTax;
             repeaterPrice = repeaterPrice * economicTax;
             energyPricePerDay = energyPricePerDay * economicTax;
-            periodForTax = periodForTax / economicTax;
+            periodForTax = periodForTax / 1.05;
         }
 
         if (NotEnoughMoney.activeInHierarchy)
@@ -224,6 +226,8 @@ public class GlobalControl : MonoBehaviour
 
         DisconectedPc = Math.Max(temp-wifiCapacity, 0);
         DisconectedPcText.text = DisconectedPc.ToString() + " disconected computers";
+
+        pcNumText.text = temp.ToString();
     }
 
 
@@ -268,7 +272,7 @@ public class GlobalControl : MonoBehaviour
             repeaterNum += 1;
             wifiCapacity += 4;
             money -= repeaterPrice;
-            repeaterPrice = repeaterPrice * 1.1;
+            repeaterPrice = repeaterPrice;
         }
     }
 
