@@ -57,9 +57,26 @@ public class GlobalControl : MonoBehaviour
 
     public Text DisconectedPcText;
     public double DisconectedPc;
-    
+
+    public double energyCapacity;
+    public double wifiCapacity;
+
+    public double daysPassed;
+    public double economicTax;
+    public double miningPCPrice;
+    public double energyPricePerDay;
+    public double periodForTax;
 
 
+    public double energyPower;
+    public double cryptoPowerNecesity;
+    public double cryptoCurrencyPrice;
+
+    public bool eventMail1;
+    public bool eventMail2;
+    public bool eventMail3;
+
+    public double PCstorageRoom;
 
     // Start is called before the first frame update
     void Start()
@@ -76,13 +93,35 @@ public class GlobalControl : MonoBehaviour
         maxConected = 4;
         repeaterNum = 0;
         repeaterPrice = 500;
+        miningPCPrice = 3000;
         DisconectedPc = 0;
+        energyCapacity = 5;
+        wifiCapacity = 4;
+        daysPassed = 0;
+        economicTax = 1;
+        energyPricePerDay = 50;
+        periodForTax = 30;
+        cryptoCurrencyPrice = 100;
+        cryptoPowerNecesity = 10;
+        energyPower = 40;
+        eventMail1 = false;
+        eventMail2 = false;
+        eventMail3 = false;
+        PCstorageRoom = 5;
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        
+        if (periodForTax < 1)
+        {
+            periodForTax = 1;
+        }
+        maxConected = Math.Min(energyCapacity, wifiCapacity);
         if (!isPaused)
         {
             TimeStart += Time.deltaTime;
@@ -93,12 +132,13 @@ public class GlobalControl : MonoBehaviour
         {
             myDate=myDate.AddDays(1);
             TimeStart = 0.0;
-            money += Math.Min(temp,maxConected) * 100;
+            money += Math.Min(temp,wifiCapacity) * cryptoCurrencyPrice-energyPricePerDay;
+            daysPassed += 1;
         }
         timeText.text = myDate.ToString();
         moneyText.text = Math.Ceiling(money).ToString();
-        AmazonMiningPCDescription.text = "New mining Computer (" + temp.ToString() + "/5 installed)\nPrice: 3000$";
-        buyRepeaterTxt.text = "New wifi repeater(you can connect " + maxConected.ToString() + " computers to the internet )\nPrice: "+repeaterPrice.ToString();
+        AmazonMiningPCDescription.text = "New mining Computer (" + temp.ToString() + "/"+PCstorageRoom.ToString()+" installed)\nPrice: "+miningPCPrice.ToString()+"$";
+        buyRepeaterTxt.text = "New wifi repeater(you can connect " + wifiCapacity.ToString() + " computers to the internet )\nPrice: "+repeaterPrice.ToString()+"$";
         if (temp == 2)
         {
             PC.sprite = PC1;
@@ -110,13 +150,15 @@ public class GlobalControl : MonoBehaviour
         else if (temp == 4)
         {
             PC.sprite = PC3;
+            eventMail1 = true;
         }
         else if (temp == 5)
         {
             PC.sprite = PC4;
+            eventMail2 = true;
         }
 
-        if(temp>2 && MailBackground.activeInHierarchy)
+        if(eventMail1 && MailBackground.activeInHierarchy)
         {
             Mail1.SetActive(true);
 
@@ -127,13 +169,15 @@ public class GlobalControl : MonoBehaviour
         }
         mailText.text = numberOfMails.ToString();
 
-        if (temp > 2 && temp < 5)
+        if (eventMail1&&!eventMail2)
         {
             numberOfMails = 1;
-        }else if(temp > 4){
+        }else if(eventMail2){
             numberOfMails = 2;
         }
-        if (temp > 4 && MailBackground.activeInHierarchy)
+
+
+        if (eventMail2 && MailBackground.activeInHierarchy)
         {
             Mail2.SetActive(true);
 
@@ -143,7 +187,16 @@ public class GlobalControl : MonoBehaviour
             Mail2.SetActive(false);
         }
 
+        if (daysPassed >periodForTax)
+        {
+            daysPassed = 0;
+            economicTax = economicTax * 1.2;
 
+            miningPCPrice = miningPCPrice * economicTax;
+            repeaterPrice = repeaterPrice * economicTax;
+            energyPricePerDay = energyPricePerDay * economicTax;
+            periodForTax = periodForTax / economicTax;
+        }
 
         if (NotEnoughMoney.activeInHierarchy)
         {
@@ -169,7 +222,7 @@ public class GlobalControl : MonoBehaviour
             buyRepeaterButton.SetActive(false);
         }
 
-        DisconectedPc = Math.Max(temp-maxConected, 0);
+        DisconectedPc = Math.Max(temp-wifiCapacity, 0);
         DisconectedPcText.text = DisconectedPc.ToString() + " disconected computers";
     }
 
@@ -191,7 +244,7 @@ public class GlobalControl : MonoBehaviour
 
     public void buyMiningPC()
     {
-        if (money < 3000 || temp>4)
+        if (money < miningPCPrice || temp >= PCstorageRoom)
         {
             
             NotEnoughMoney.SetActive(true);
@@ -200,7 +253,7 @@ public class GlobalControl : MonoBehaviour
         else
         {
             temp += 1;
-            money -= 3000;
+            money -= miningPCPrice;
         }
     }
 
@@ -213,9 +266,22 @@ public class GlobalControl : MonoBehaviour
         else
         {
             repeaterNum += 1;
-            maxConected += 4;
+            wifiCapacity += 4;
             money -= repeaterPrice;
-            repeaterPrice = repeaterPrice * 3;
+            repeaterPrice = repeaterPrice * 1.1;
+        }
+    }
+
+    public void buyStorage()
+    {
+        if (money < 10000)
+        {
+            NotEnoughMoney.SetActive(true);
+        }
+        else
+        {
+            PCstorageRoom += 5;
+            money -= 10000;
         }
     }
 }
