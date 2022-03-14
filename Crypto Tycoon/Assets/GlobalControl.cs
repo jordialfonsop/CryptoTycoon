@@ -79,7 +79,6 @@ public class GlobalControl : MonoBehaviour
 
 
     public bool IsEnergyPlanPlus;
-    public double EnergyPrice;
     public double energyPower;
     public double cryptoPowerNecesity;
     public double cryptoCurrencyPrice;
@@ -88,6 +87,11 @@ public class GlobalControl : MonoBehaviour
     public GameObject EnergyPlanTemp;
     public GameObject EnergyScreen;
     public int daysInEnergyPlus;
+    public GameObject DowngradeEnergyButton;
+    public GameObject EnergyDowngradeTemp;
+    public Text EnergyBasicText;
+    public Text EnergyPlusText;
+    public double ConsumedEnergy;
 
 
 
@@ -154,24 +158,37 @@ public class GlobalControl : MonoBehaviour
             }
         }
 
-        if(daysInEnergyPlus>15)
+        if(daysInEnergyPlus>10)
         {
             IsEnergyPlanPlus = false;
+            daysInEnergyPlus = 0;
+        }
+
+
+        if(EnergyScreen.activeInHierarchy && !IsEnergyPlanPlus)
+        {
             UpradeEnergyButton.SetActive(true);
             EnergyPlanTemp.SetActive(false);
-            daysInEnergyPlus = 0;
+            DowngradeEnergyButton.SetActive(false);
+            EnergyDowngradeTemp.SetActive(true);
+
         }
         else if (EnergyScreen.activeInHierarchy)
         {
             UpradeEnergyButton.SetActive(false);
             EnergyPlanTemp.SetActive(true);
-            daysInEnergyPlus = 0;
+            DowngradeEnergyButton.SetActive(true);
+            EnergyDowngradeTemp.SetActive(false);
         }
         else{
             UpradeEnergyButton.SetActive(false);
             EnergyPlanTemp.SetActive(false);
-            daysInEnergyPlus = 0;
+            DowngradeEnergyButton.SetActive(false);
+            EnergyDowngradeTemp.SetActive(false);
+
         }
+
+
         timeText.text = myDate.ToString();
         moneyText.text = Math.Ceiling(money).ToString();
         AmazonMiningPCDescription.text = "New mining Computer (" + temp.ToString() + "/"+PCstorageRoom.ToString()+" installed)\nPrice: "+miningPCPrice.ToString()+"$";
@@ -263,6 +280,20 @@ public class GlobalControl : MonoBehaviour
         DisconectedPcText.text = DisconectedPc.ToString() + " disconected computers";
 
         pcNumText.text = temp.ToString();
+
+        ConsumedEnergy = temp * cryptoPowerNecesity;
+
+        if (IsEnergyPlanPlus)
+        {
+            EnergyPlusText.text = "-" + energyPricePerDay.ToString() + "$/Day\n-" + ConsumedEnergy.ToString() + "/" + energyPower.ToString() + "Units of energy.";
+            EnergyBasicText.text = "-" + (energyPricePerDay-100).ToString() + "$/Day\n-" + ConsumedEnergy.ToString() + "/" + (energyPower-50).ToString() + "Units of energy.";
+        }
+        else
+        {
+            EnergyBasicText.text = "-" + energyPricePerDay.ToString() + "$/Day\n-" + ConsumedEnergy.ToString() + "/" + energyPower.ToString() + "Units of energy.";
+            EnergyPlusText.text = "-" + (energyPricePerDay + 100).ToString() + "$/Day\n-" + ConsumedEnergy.ToString() + "/" + (energyPower + 50).ToString() + "Units of energy.";
+        }
+
     }
 
 
@@ -327,7 +358,13 @@ public class GlobalControl : MonoBehaviour
     public void upgradeEnergyPlan()
     {
         IsEnergyPlanPlus = true;
-        EnergyPrice += 100;
+        energyPricePerDay += 100;
         energyPower += 50;
+    }
+    public void downgradeEnergyPlan()
+    {
+        IsEnergyPlanPlus = false;
+        energyPricePerDay -= 100;
+        energyPower -= 50;
     }
 }
