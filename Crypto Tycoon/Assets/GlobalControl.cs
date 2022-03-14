@@ -68,9 +68,7 @@ public class GlobalControl : MonoBehaviour
     public double periodForTax;
 
 
-    public double energyPower;
-    public double cryptoPowerNecesity;
-    public double cryptoCurrencyPrice;
+    
 
     public bool eventMail1;
     public bool eventMail2;
@@ -78,6 +76,19 @@ public class GlobalControl : MonoBehaviour
 
     public double PCstorageRoom;
     public Text pcNumText;
+
+
+    public bool IsEnergyPlanPlus;
+    public double EnergyPrice;
+    public double energyPower;
+    public double cryptoPowerNecesity;
+    public double cryptoCurrencyPrice;
+
+    public GameObject UpradeEnergyButton;
+    public GameObject EnergyPlanTemp;
+    public GameObject EnergyScreen;
+    public int daysInEnergyPlus;
+
 
 
     // Start is called before the first frame update
@@ -97,7 +108,6 @@ public class GlobalControl : MonoBehaviour
         repeaterPrice = 500;
         miningPCPrice = 3000;
         DisconectedPc = 0;
-        energyCapacity = 5;
         wifiCapacity = 4;
         daysPassed = 0;
         economicTax = 1;
@@ -105,11 +115,13 @@ public class GlobalControl : MonoBehaviour
         periodForTax = 30;
         cryptoCurrencyPrice = 100;
         cryptoPowerNecesity = 10;
-        energyPower = 40;
+        energyPower = 50;
         eventMail1 = false;
         eventMail2 = false;
         eventMail3 = false;
         PCstorageRoom = 5;
+        IsEnergyPlanPlus = false;
+        daysInEnergyPlus = 0;
 
 
     }
@@ -118,7 +130,7 @@ public class GlobalControl : MonoBehaviour
     void Update()
     {
 
-        
+        energyCapacity = energyPower / cryptoPowerNecesity;
         if (periodForTax < 1)
         {
             periodForTax = 1;
@@ -134,8 +146,31 @@ public class GlobalControl : MonoBehaviour
         {
             myDate=myDate.AddDays(1);
             TimeStart = 0.0;
-            money += Math.Min(temp,wifiCapacity) * cryptoCurrencyPrice-energyPricePerDay;
+            money += Math.Min(temp, maxConected) * cryptoCurrencyPrice-energyPricePerDay;
             daysPassed += 1;
+            if (IsEnergyPlanPlus)
+            {
+                daysInEnergyPlus+=1;
+            }
+        }
+
+        if(daysInEnergyPlus>15)
+        {
+            IsEnergyPlanPlus = false;
+            UpradeEnergyButton.SetActive(true);
+            EnergyPlanTemp.SetActive(false);
+            daysInEnergyPlus = 0;
+        }
+        else if (EnergyScreen.activeInHierarchy)
+        {
+            UpradeEnergyButton.SetActive(false);
+            EnergyPlanTemp.SetActive(true);
+            daysInEnergyPlus = 0;
+        }
+        else{
+            UpradeEnergyButton.SetActive(false);
+            EnergyPlanTemp.SetActive(false);
+            daysInEnergyPlus = 0;
         }
         timeText.text = myDate.ToString();
         moneyText.text = Math.Ceiling(money).ToString();
@@ -224,7 +259,7 @@ public class GlobalControl : MonoBehaviour
             buyRepeaterButton.SetActive(false);
         }
 
-        DisconectedPc = Math.Max(temp-wifiCapacity, 0);
+        DisconectedPc = Math.Max(temp- maxConected, 0);
         DisconectedPcText.text = DisconectedPc.ToString() + " disconected computers";
 
         pcNumText.text = temp.ToString();
@@ -287,5 +322,12 @@ public class GlobalControl : MonoBehaviour
             PCstorageRoom += 5;
             money -= 10000;
         }
+    }
+
+    public void upgradeEnergyPlan()
+    {
+        IsEnergyPlanPlus = true;
+        EnergyPrice += 100;
+        energyPower += 50;
     }
 }
