@@ -250,7 +250,7 @@ public class GlobalControl : MonoBehaviour
             miningPCPrice = miningPCPrice * economicTax;
             repeaterPrice = repeaterPrice * economicTax;
             energyPricePerDay = energyPricePerDay * economicTax;
-            periodForTax = periodForTax / 1.05;
+            periodForTax = periodForTax / 1.1;
         }
 
         if (NotEnoughMoney.activeInHierarchy)
