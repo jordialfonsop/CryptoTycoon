@@ -82,6 +82,7 @@ public class GlobalControl : MonoBehaviour
     public double energyPower;
     public double cryptoPowerNecesity;
     public double cryptoCurrencyPrice;
+    public Text CurrentMiningCryptoText;
 
     public GameObject UpradeEnergyButton;
     public GameObject EnergyPlanTemp;
@@ -134,7 +135,7 @@ public class GlobalControl : MonoBehaviour
     void Update()
     {
 
-        energyCapacity = energyPower / cryptoPowerNecesity;
+        energyCapacity = Math.Floor(energyPower / cryptoPowerNecesity);
         if (periodForTax < 1)
         {
             periodForTax = 1;
@@ -366,5 +367,54 @@ public class GlobalControl : MonoBehaviour
         IsEnergyPlanPlus = false;
         energyPricePerDay -= 100;
         energyPower -= 50;
+    }
+
+    public void CryptoBitcoin()
+    {
+        cryptoCurrencyPrice = 100;
+        cryptoPowerNecesity = 10;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: Bitcoin";
+    }
+    public void CryptoEthereum()
+    {
+        cryptoCurrencyPrice = 60;
+        cryptoPowerNecesity = 5;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: Ethereum";
+    }
+    public void CryptoLitecoin()
+    {
+        cryptoCurrencyPrice = 200;
+        cryptoPowerNecesity = 15;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: Litecoin";
+    }
+    public void CryptoRipple()
+    {
+        cryptoCurrencyPrice = 250;
+        cryptoPowerNecesity = 20;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: Ripple";
+    }
+    public void CryptoBitcoinCash()
+    {
+        cryptoCurrencyPrice = 300;
+        cryptoPowerNecesity = 30;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: BitcoinCash";
+    }
+    public void CryptoMonero()
+    {
+        cryptoCurrencyPrice = 500;
+        cryptoPowerNecesity = 50;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: Monero";
+    }
+    public void CryptoDash()
+    {
+        cryptoCurrencyPrice = 1000;
+        cryptoPowerNecesity = 70;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: Dash";
+    }
+    public void CryptoNEO()
+    {
+        cryptoCurrencyPrice = 3000;
+        cryptoPowerNecesity = 120;
+        CurrentMiningCryptoText.text = "Current mining cryptocurrency: NEO";
     }
 }
